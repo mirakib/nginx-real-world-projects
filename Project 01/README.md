@@ -1,3 +1,5 @@
+# Project-1 | Serving Static Website Using Nginx 
+
 ## Step 1: Place Files in Web Root 
 
 By default, Ubuntu NGINX serves from: 
