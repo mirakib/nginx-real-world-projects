@@ -1,4 +1,4 @@
-# Nginx real world projects
+# Nginx Real World Projects For Beginner
 
 - Project-1 | Serving Static Website Using Nginx 
 - Project-2 | Nginx As a Reverse Proxy 
