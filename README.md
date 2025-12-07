@@ -1,3 +1,5 @@
+<img src="https://skillicons.dev/icons?i=nginx" style="height: 40px;"/>
+
 # Nginx Real World Projects For Beginners
 
 - Project-1 | Serving Static Website Using Nginx 
