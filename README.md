@@ -1,5 +1,3 @@
-<img src="https://skillicons.dev/icons?i=nginx" style="height: 40px;"/>
-
 # Nginx Real World Projects For Beginners
 
 - Project-1 | Serving Static Website Using Nginx 
@@ -7,3 +5,29 @@
 - Project-3 | Nginx As Load Balancer
 
 Nginx installation: `sudo apt install nginx -y`
+
+
+### Nginx Main Config File Locations (Ubuntu/Debian-based systems):
+
+```
+/etc/nginx/
+│
+├── nginx.conf                → Main configuration file
+│
+├── conf.d/                   → Extra configuration snippets (global)
+│   ├── proxy.conf
+│   ├── gzip.conf
+│
+├── sites-available/          → Available server blocks (virtual hosts)
+│   ├── default
+│   ├── example.com.conf
+│
+├── sites-enabled/            → Active server blocks (symlinks)
+│   ├── example.com.conf → 
+│
+└── snippets/                 → Reusable small configuration parts
+    ├── ssl.conf
+    ├── fastcgi-php.conf
+
+```
+
