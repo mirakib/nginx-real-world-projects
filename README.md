@@ -3,6 +3,7 @@
 - Project-1 | Serving Static Website Using Nginx 
 - Project-2 | Nginx As a Reverse Proxy 
 - Project-3 | Nginx As Load Balancer
+- Project-4 | Nginx AS Web Server on EC2 Instance
 
 Nginx installation: `sudo apt install nginx -y`
 
