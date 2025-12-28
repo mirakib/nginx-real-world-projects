@@ -5,8 +5,8 @@
 - Project-3 | Nginx As Load Balancer
 - Project-4 | Nginx AS Web Server on EC2 Instance
 - Project-5 | Nginx Setup using Terraform on AWS
+  
 Nginx installation: `sudo apt install nginx -y`
-
 
 ### Nginx Main Config File Locations (Ubuntu/Debian-based systems):
 
