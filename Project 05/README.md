@@ -13,11 +13,11 @@ Highly available **Nginx** setup using an **Application Load Balancer** and **Au
 ```sh
 terraform init
 ```
+
 ```
-terraform plan \
-  -var="ami_id=ami-0abcdef1234567890" \
-  -var="key_name=your-keypair-name"
+terraform plan 
 ```
+
 ```
-terraform apply
+terraform apply -var="key_name=my-ec2-key"
 ```
