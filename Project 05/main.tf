@@ -3,7 +3,6 @@ provider "aws" {
 }
 
 # VPC
-
 resource "aws_vpc" "main" {
   cidr_block = "10.0.0.0/16"
 
@@ -22,35 +21,34 @@ resource "aws_internet_gateway" "igw" {
 }
 
 # Availability Zones
-
 data "aws_availability_zones" "available" {}
 
-# Public Subnet (single AZ)
-
+# Public Subnets (2 AZ)
 resource "aws_subnet" "public" {
+  count                   = 2
   vpc_id                  = aws_vpc.main.id
-  cidr_block              = "10.0.0.0/24"
-  availability_zone       = data.aws_availability_zones.available.names[0]
+  cidr_block              = cidrsubnet("10.0.0.0/16", 8, count.index)
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "nginx-public-subnet"
+    Name = "nginx-public-subnet-${count.index + 1}"
   }
 }
 
-# Private Subnet (single AZ)
+# Private Subnets (2 AZ)
 resource "aws_subnet" "private" {
+  count             = 2
   vpc_id            = aws_vpc.main.id
-  cidr_block        = "10.0.1.0/24"
-  availability_zone = data.aws_availability_zones.available.names[0]
+  cidr_block        = cidrsubnet("10.0.0.0/16", 8, count.index + 10)
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
-    Name = "nginx-private-subnet"
+    Name = "nginx-private-subnet-${count.index + 1}"
   }
 }
 
 # Elastic IP for NAT
-
 resource "aws_eip" "nat" {
   domain = "vpc"
 
@@ -59,11 +57,10 @@ resource "aws_eip" "nat" {
   }
 }
 
-# NAT Gateway
-
+# NAT Gateway (single AZ)
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = aws_subnet.public.id
+  subnet_id     = aws_subnet.public[0].id
 
   tags = {
     Name = "nginx-nat-gateway"
@@ -71,7 +68,6 @@ resource "aws_nat_gateway" "nat" {
 }
 
 # Public Route Table
-
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -86,12 +82,12 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public.id
+  count          = 2
+  subnet_id      = aws_subnet.public[count.index].id
   route_table_id = aws_route_table.public.id
 }
 
 # Private Route Table
-
 resource "aws_route_table" "private" {
   vpc_id = aws_vpc.main.id
 
@@ -106,12 +102,12 @@ resource "aws_route_table" "private" {
 }
 
 resource "aws_route_table_association" "private" {
-  subnet_id      = aws_subnet.private.id
+  count          = 2
+  subnet_id      = aws_subnet.private[count.index].id
   route_table_id = aws_route_table.private.id
 }
 
 # Security Group for ALB
-
 resource "aws_security_group" "alb_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -135,7 +131,6 @@ resource "aws_security_group" "alb_sg" {
 }
 
 # Security Group for EC2
-
 resource "aws_security_group" "ec2_sg" {
   vpc_id = aws_vpc.main.id
 
@@ -166,7 +161,6 @@ resource "aws_security_group" "ec2_sg" {
 }
 
 # Launch Template
-
 resource "aws_launch_template" "nginx" {
   name_prefix   = "nginx-lt"
   image_id      = "ami-0ecb62995f68bb549"
@@ -190,11 +184,10 @@ resource "aws_launch_template" "nginx" {
 }
 
 # Application Load Balancer
-
 resource "aws_lb" "alb" {
   name               = "nginx-alb"
   load_balancer_type = "application"
-  subnets            = [aws_subnet.public.id]
+  subnets            = aws_subnet.public[*].id
   security_groups    = [aws_security_group.alb_sg.id]
 
   tags = {
@@ -203,7 +196,6 @@ resource "aws_lb" "alb" {
 }
 
 # Target Group
-
 resource "aws_lb_target_group" "tg" {
   name     = "nginx-tg"
   port     = 80
@@ -211,12 +203,11 @@ resource "aws_lb_target_group" "tg" {
   vpc_id  = aws_vpc.main.id
 
   tags = {
-    Name = "nginx-tg"
+    Name = "nginx-target-group"
   }
 }
 
 # Listener
-
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.alb.arn
   port              = 80
@@ -229,13 +220,12 @@ resource "aws_lb_listener" "http" {
 }
 
 # Auto Scaling Group
-
 resource "aws_autoscaling_group" "asg" {
   min_size         = 1
   max_size         = 3
   desired_capacity = 2
 
-  vpc_zone_identifier = [aws_subnet.private.id]
+  vpc_zone_identifier = aws_subnet.private[*].id
   target_group_arns  = [aws_lb_target_group.tg.arn]
 
   launch_template {
@@ -245,7 +235,7 @@ resource "aws_autoscaling_group" "asg" {
 
   tag {
     key                 = "Name"
-    value               = "nginx-auto-sg"
+    value               = "nginx-asg-instance"
     propagate_at_launch = true
   }
 }
