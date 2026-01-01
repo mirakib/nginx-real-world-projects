@@ -2,18 +2,6 @@ provider "aws" {
   region = var.aws_region
 }
 
-# Ubuntu 24.04 AMI
-
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"]
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-noble-24.04-amd64-server-*"]
-  }
-}
-
 # VPC
 
 resource "aws_vpc" "main" {
@@ -45,9 +33,8 @@ resource "aws_subnet" "private" {
 
 data "aws_availability_zones" "available" {}
 
-# -----------------------------
 # Route Tables
-# -----------------------------
+
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
@@ -113,7 +100,7 @@ resource "aws_security_group" "ec2_sg" {
 
 resource "aws_launch_template" "nginx" {
   name_prefix   = "nginx-lt-"
-  image_id      = data.aws_ami.ubuntu.id
+  image_id      = "ami-0ecb62995f68bb549"
   instance_type = "t2.micro"
   key_name      = var.key_name
 
