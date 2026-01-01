@@ -21,3 +21,9 @@ terraform plan
 ```
 terraform apply -var="key_name=my-ec2-key"
 ```
+
+## Cleanup resources
+
+```sh
+terraform destroy
+```
