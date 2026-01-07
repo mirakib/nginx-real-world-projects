@@ -33,6 +33,7 @@ cd nginx-real-world-projects/Project\ 07/
 ## Start and enable Nginx
 
 ```sh
+chmod -R +x scripts/
 chmod +x install_nginx.sh
 sudo ./install_nginx.sh
 ```
