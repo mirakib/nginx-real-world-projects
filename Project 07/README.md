@@ -1,4 +1,4 @@
-# Host Multiple Websites (Virtual Hosts)**
+# Host Multiple Websites (Virtual Hosts)
 - Serve multiple domains from a single Nginx instance.
 - Add SSL certificates for each domain using Let's Encrypt.
 
