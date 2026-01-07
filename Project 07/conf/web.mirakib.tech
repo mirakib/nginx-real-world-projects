@@ -2,7 +2,7 @@ server {
     listen 80;
     server_name web.mirakib.tech;
 
-    root /var/www/web.mirakib.tech/html;
+    root /var/www/web.mirakib.tech/;
 
     include snippets/common.conf;
 }
