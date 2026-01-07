@@ -20,58 +20,111 @@
       └── common.conf
 ```
 
-## Git Clone the Repository
+## STEP 1: Provision server and domains
 
-```sh
-git clone https://github.com/mirakib/nginx-real-world-projects.git
-```
+1. **Provison an `Ubuntu` server**
+2. **Setup `A records` in domain registry:**
+   - `app.mirakib.tech `-> `your_server_public_ip`
+   - `web.mirakib.tech `-> `your_server_public_ip`
+   
+>[!Warning]
+> **Both records should have the same public IP.**
 
-```sh
-cd nginx-real-world-projects/Project\ 07/
-```
+## STEP 2: Get project files in the server
 
-## Start and enable Nginx
+1. **Clone code from github repo**
+   
+   ```sh
+   git clone https://github.com/mirakib/nginx-real-world-projects.git
+   ```
 
-**Set permissions and navigate to scripts directory:**
-```sh
-chmod -R +x scripts/
-cd scripts/
-```
-**Run Install Script:**
-```
-sudo ./install_nginx.sh
-````
+2. **Navigate to project directory:**
 
-## Place conf files at right places
+   ```sh
+   cd nginx-real-world-projects/Project\ 07/
+   ```
 
-**Set permission:**
+## STEP 3: Enable Nginx on the server
 
-```sh
-sudo chown -R $USER:www-data /var/www/app.mirakib.tech
-sudo chown -R $USER:www-data /var/www/web.mirakib.tech
-```
+1. **Set permissions for all scripts:**
+   
+   ```sh
+   chmod -R +x scripts/
+   ```
 
-## Enable Sites & Test
+2. **Install, Enable and Start Nginx:**
+   
+   ```
+   sudo ./scripts/install_nginx.sh
+   ````
 
-```sh
-sudo ln -s /etc/nginx/sites-available/app.mirakib.tech /etc/nginx/sites-enabled/
-sudo ln -s /etc/nginx/sites-available/web.mirakib.tech /etc/nginx/sites-enabled/
+## STEP 4: Setup Nginx for Multi-Domain Hosting
 
-sudo nginx -t
-sudo systemctl reload nginx
-```
+1. **Create domain directories in Nginx web root:**
 
-## Setup SSL with Let's Encrypt
+   ```sh
+   sudo mkdir -p /var/www/app.mirakib.tech
+   sudo mkdir -p /var/www/web.mirakib.tech
+   ```
 
-**Make it executable:**
+2. **Place index files to /var/www/**
 
-```sh
-chmod +x ssl_nginx.sh
-```
+   ```sh
+   sudo cp landing-pages/index.app.html /var/www/app.mirakib.tech/index.html
+   sudo cp landing-pages/index.web.html /var/www/web.mirakib.tech/index.html
+   ```
+   
+3. **Set Permission:**
 
-**Run SSL Per Domain:**
+   ```sh
+   sudo chown -R $USER:www-data /var/www/app.mirakib.tech
+   sudo chown -R $USER:www-data /var/www/web.mirakib.tech
+   ```
 
-```sh
-./ssl_nginx.sh app.mirakib.tech you@example.com
-./ssl_nginx.sh web.mirakib.tech you@example.com
-```
+4. **Create conf directories in Nginx conf root:**
+
+   ```sh
+   sudo mkdir -p "/etc/nginx/snippets"
+   sudo mkdir -p "/etc/nginx/sites-available"
+   sudo mkdir -p "/etc/nginx/sites-enabled"
+   ```
+
+5. **Place conf files to conf roots:**
+
+   ```sh
+   sudo cp conf/common.conf "/etc/nginx/snippets/common.conf"
+   sudo cp conf/app.mirakib.tech "/etc/nginx/sites-available/app.mirakib.tech"
+   sudo cp conf/web.mirakib.tech "/etc/nginx/sites-available/web.mirakib.tech"
+   ```
+   
+## STEP 5: Enable Sites in Nginx for Web
+
+1. **Create a symlink in sites-enabled**
+   
+   ```sh
+   sudo ln -s /etc/nginx/sites-available/app.mirakib.tech /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/web.mirakib.tech /etc/nginx/sites-enabled/
+   ```
+
+2. **Reload Nginx:**
+
+   ```sh
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
+
+## STEP 6: Setup SSL with Let's Encrypt
+
+1. **Run SSL Per Domain:**
+
+   ```sh
+   ./scripts/ssl_nginx.sh app.mirakib.tech you@example.com
+   ./scripts/ssl_nginx.sh web.mirakib.tech you@example.com
+   ```
+
+2. **Reload Nginx:**
+
+   ```sh
+   sudo nginx -t
+   sudo systemctl reload nginx
+   ```
