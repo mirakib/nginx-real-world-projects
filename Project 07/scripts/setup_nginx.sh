@@ -5,8 +5,8 @@ NGINX_ROOT="/etc/nginx"
 WEB_ROOT="/var/www"
 
 DOMAINS=(
-  "app.mirakib.tech:index.app.html"
-  "web.mirakib.tech:index.web.html"
+  "app.domain.com:index.app.html"
+  "web.domain.com:index.web.html"
 )
 
 

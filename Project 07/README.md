@@ -6,16 +6,16 @@
 
 ```conf
 /var/www/
- ├── app.mirakib.tech/
- └── web.mirakib.tech/
+ ├── app.domain.com/
+ └── web.domain.com/
 
 /etc/nginx/
  ├── sites-available/
- │    ├── app.mirakib.tech
- │    └── web.mirakib.tech
+ │    ├── app.domain.com
+ │    └── web.domain.com
  ├── sites-enabled/
- │    ├── app.mirakib.tech -> ../sites-available/app.mirakib.tech
- │    └── web.mirakib.tech -> ../sites-available/web.mirakib.tech
+ │    ├── app.domain.com -> ../sites-available/app.domain.com
+ │    └── web.domain.com -> ../sites-available/web.domain.com
  └── snippets/
       └── common.conf
 ```
@@ -66,22 +66,22 @@
 1. **Create domain directories in Nginx web root:**
 
    ```sh
-   sudo mkdir -p /var/www/app.mirakib.tech
-   sudo mkdir -p /var/www/web.mirakib.tech
+   sudo mkdir -p /var/www/app.domain.com
+   sudo mkdir -p /var/www/web.domain.com
    ```
 
 2. **Place index files to /var/www/**
 
    ```sh
-   sudo cp landing-pages/index.app.html /var/www/app.mirakib.tech/index.html
-   sudo cp landing-pages/index.web.html /var/www/web.mirakib.tech/index.html
+   sudo cp landing-pages/index.app.html /var/www/app.domain.com/index.html
+   sudo cp landing-pages/index.web.html /var/www/web.domain.com/index.html
    ```
    
 3. **Set Permission:**
 
    ```sh
-   sudo chown -R $USER:www-data /var/www/app.mirakib.tech
-   sudo chown -R $USER:www-data /var/www/web.mirakib.tech
+   sudo chown -R $USER:www-data /var/www/app.domain.com
+   sudo chown -R $USER:www-data /var/www/web.domain.com
    ```
 
 4. **Create conf directories in Nginx conf root:**
@@ -96,8 +96,8 @@
 
    ```sh
    sudo cp conf/common.conf "/etc/nginx/snippets/common.conf"
-   sudo cp conf/app.mirakib.tech "/etc/nginx/sites-available/app.mirakib.tech"
-   sudo cp conf/web.mirakib.tech "/etc/nginx/sites-available/web.mirakib.tech"
+   sudo cp conf/app.domain.com "/etc/nginx/sites-available/app.domain.com"
+   sudo cp conf/web.domain.com "/etc/nginx/sites-available/web.domain.com"
    ```
    
 ## STEP 5: Enable Sites in Nginx for Web
@@ -105,8 +105,8 @@
 1. **Create a symlink in sites-enabled**
    
    ```sh
-   sudo ln -s /etc/nginx/sites-available/app.mirakib.tech /etc/nginx/sites-enabled/
-   sudo ln -s /etc/nginx/sites-available/web.mirakib.tech /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/app.domain.com /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/web.domain.com /etc/nginx/sites-enabled/
    ```
 
 2. **Reload Nginx:**
@@ -121,8 +121,8 @@
 1. **Run SSL Per Domain:**
 
    ```sh
-   ./scripts/ssl_nginx.sh app.mirakib.tech you@example.com
-   ./scripts/ssl_nginx.sh web.mirakib.tech you@example.com
+   ./scripts/ssl_nginx.sh app.domain.com you@example.com
+   ./scripts/ssl_nginx.sh web.domain.com you@example.com
    ```
 
 2. **Reload Nginx:**
