@@ -24,8 +24,8 @@
 
 1. **Provison an `Ubuntu` server**
 2. **Setup `A records` in domain registry:**
-   - `app.mirakib.tech `-> `your_server_public_ip`
-   - `web.mirakib.tech `-> `your_server_public_ip`
+   - `app.domain.com`-> `your_server_public_ip`
+   - `web.domain.com`-> `your_server_public_ip`
    
 >[!Warning]
 > **Both records should have the same public IP.**
@@ -37,6 +37,9 @@
    ```sh
    git clone https://github.com/mirakib/nginx-real-world-projects.git
    ```
+   
+> [!Warning]
+> **Before start deploying, replace domain name with yours.**
 
 2. **Navigate to project directory:**
 
