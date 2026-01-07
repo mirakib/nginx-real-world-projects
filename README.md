@@ -7,7 +7,8 @@
 - Project-5 | Nginx Setup using Terraform on AWS
 - Project-6 | SSL Automation for Nginx
 - Project-7 | Host Multiple Websites
-  
+- Project-8 | Rate Limiting & Security
+
 Nginx installation: `sudo apt install nginx -y`
 
 ### Nginx Main Config File Locations (Ubuntu/Debian-based systems):
