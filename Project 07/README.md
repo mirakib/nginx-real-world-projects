@@ -32,11 +32,15 @@ cd nginx-real-world-projects/Project\ 07/
 
 ## Start and enable Nginx
 
+**Set permissions and navigate to scripts directory:**
 ```sh
 chmod -R +x scripts/
-chmod +x install_nginx.sh
-sudo ./install_nginx.sh
+cd scripts/
 ```
+**Run Install Script:**
+```
+sudo ./install_nginx.sh
+````
 
 ## Place conf files at right places
 
