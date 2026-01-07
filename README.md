@@ -6,6 +6,7 @@
 - Project-4 | Nginx AS Web Server on EC2 Instance
 - Project-5 | Nginx Setup using Terraform on AWS
 - Project-6 | SSL Automation for Nginx
+- Project 07| Host Multiple Websites
   
 Nginx installation: `sudo apt install nginx -y`
 
