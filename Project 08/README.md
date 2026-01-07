@@ -13,10 +13,10 @@
 /etc/nginx/sites-available/
 └── app.domain.tech
 /etc/nginx/sites-enabled/
-└── app.mirakib.tech -> /etc/nginx/sites-available/app.domain.tech
+└── app.domain.tech -> /etc/nginx/sites-available/app.domain.tech
 ```
 
-- `/var/www/app.mirakib.tech/index.html` → your website content
+- `/var/www/app.domain.tech/index.html` → your website content
 - `/etc/nginx/snippets/rate-limit.conf` → reusable rate limiting rules
 - `/etc/nginx/sites-available/app.domain.tech` → Nginx server block
 - `/etc/nginx/sites-enabled/app.domain.tech` → symlink to enable the site
