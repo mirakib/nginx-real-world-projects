@@ -10,6 +10,7 @@
 - Project-8  | Rate Limiting & Security
 - Project-9  | Dockerized Nginx with SSL
 - Project-10 | Nginx Logging & Monitoring
+  
 Nginx installation: `sudo apt install nginx -y`
 
 ### Nginx Main Config File Locations (Ubuntu/Debian-based systems):
