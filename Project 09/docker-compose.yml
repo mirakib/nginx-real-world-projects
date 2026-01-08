@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  nginx:
+  build: ./nginx
+  ports:
+    - "80:80"
+    - "443:443"
+  volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+    - ./certbot/conf:/etc/letsencrypt
+    - ./nginx/certbot/www:/var/www/certbot
+  depends_on:
+    - app1
+    - app2
+  restart: unless-stopped
+
+app1:
+  build: ./app1
+  expose:
+    - "5000"
+
+app2:
+  build: ./app2
+  expose:
+    - "5001"
+
+certbot:
+  image: certbot/certbot
+  volumes:
+    - ./certbot/conf:/etc/letsencrypt
+    - ./nginx/certbot/www:/var/www/certbot
+  entrypoint: ""
