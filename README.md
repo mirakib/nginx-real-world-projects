@@ -8,7 +8,8 @@
 - Project-6 | SSL Automation for Nginx
 - Project-7 | Host Multiple Websites
 - Project-8 | Rate Limiting & Security
-
+- Project-9 | Dockerized Nginx with SSL
+  
 Nginx installation: `sudo apt install nginx -y`
 
 ### Nginx Main Config File Locations (Ubuntu/Debian-based systems):
