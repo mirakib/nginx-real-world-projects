@@ -30,25 +30,28 @@ systemctl enable nginx
 
 ## HTTPS Automation Script (Post-Launch)
 
->[!Warning]
-> **Must use valid email address and domain name.**
-
 ```sh
 #!/bin/bash
 set -e
 
-DOMAIN="app.domain.tech"
-EMAIL="you@example.com"
-WEBROOT="/var/www/$DOMAIN"
+if [ $# -ne 2 ]; then
+  echo "Usage: $0 <domain> <email>"
+  exit 1
+fi
+
+DOMAIN=$1
+EMAIL=$2
+
+echo "Enabling SSL for $DOMAIN"
 
 sudo apt update
 sudo apt install -y certbot python3-certbot-nginx
 
 sudo certbot --nginx \
-  -d $DOMAIN \
+  -d "$DOMAIN" \
   --non-interactive \
   --agree-tos \
-  -m $EMAIL \
+  -m "$EMAIL" \
   --redirect
 
 sudo nginx -t
@@ -57,13 +60,17 @@ sudo systemctl reload nginx
 
 **Make executable:**
 ```sh
-chmod +x enable_https.sh
+chmod +x ssl_nginx.sh
 ```
+
+>[!Tip]
+> **Pass domain name and valid email address as arguments for each domain.**
 
 **Run:**
 ```sh
-./enable_https.sh
+./ssl_nginx.sh domain.com name@email.com
 ```
+
 
 ## Check Existing Certbot Certificates
 
